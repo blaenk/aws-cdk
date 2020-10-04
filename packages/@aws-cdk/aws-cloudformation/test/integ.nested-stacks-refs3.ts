@@ -5,6 +5,8 @@ import * as cfn from '../lib';
 
 // references between siblings
 
+/* eslint-disable cdk/test-no-core-construct */
+
 class ProducerNestedStack extends cfn.NestedStack {
   public readonly topic: sns.Topic;
 

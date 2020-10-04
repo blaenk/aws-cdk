@@ -2,7 +2,8 @@ import '@aws-cdk/assert/jest';
 import * as dynamodb from '@aws-cdk/aws-dynamodb';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as efs from '@aws-cdk/aws-efs';
-import { Construct, Stack } from '@aws-cdk/core';
+import { Construct as CoreConstruct, Stack } from '@aws-cdk/core';
+import { Construct } from 'constructs';
 import { BackupPlan, BackupResource, BackupSelection } from '../lib';
 
 let stack: Stack;
@@ -120,7 +121,7 @@ test('allow restores', () => {
 
 test('fromConstruct', () => {
   // GIVEN
-  class EfsConstruct extends Construct {
+  class EfsConstruct extends CoreConstruct {
     constructor(scope: Construct, id: string) {
       super(scope, id);
       new efs.CfnFileSystem(this, 'FileSystem');
