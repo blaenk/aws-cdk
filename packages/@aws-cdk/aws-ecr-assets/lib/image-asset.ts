@@ -102,7 +102,7 @@ export class DockerImageAsset extends CoreConstruct implements assets.IAsset {
     const ignore = path.join(dir, '.dockerignore');
 
     if (fs.existsSync(ignore)) {
-      exclude = [...exclude, ...fs.readFileSync(ignore).toString().split('\n').filter(e => !!e)];
+      exclude = [...fs.readFileSync(ignore).toString().split('\n').filter(e => !!e), ...exclude];
     }
 
     // make sure the docker file and the dockerignore file end up in the staging area

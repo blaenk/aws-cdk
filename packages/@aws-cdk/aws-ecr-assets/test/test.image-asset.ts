@@ -235,6 +235,7 @@ export = {
 
     const image = new DockerImageAsset(stack, 'MyAsset', {
       directory: path.join(__dirname, 'whitelisted-image'),
+      exclude: ['!subdirectory', 'node_modules'],
     });
 
     const session = app.synth();
@@ -244,6 +245,8 @@ export = {
     test.ok(fs.existsSync(path.join(session.directory, `asset.${image.sourceHash}`, 'Dockerfile')));
     test.ok(fs.existsSync(path.join(session.directory, `asset.${image.sourceHash}`, 'index.py')));
     test.ok(fs.existsSync(path.join(session.directory, `asset.${image.sourceHash}`, 'foobar.txt')));
+    test.ok(fs.existsSync(path.join(session.directory, `asset.${image.sourceHash}`, 'subdirectory')));
+    test.ok(fs.existsSync(path.join(session.directory, `asset.${image.sourceHash}`, 'subdirectory', 'baz.txt')));
     test.ok(!fs.existsSync(path.join(session.directory, `asset.${image.sourceHash}`, 'node_modules')));
     test.ok(!fs.existsSync(path.join(session.directory, `asset.${image.sourceHash}`, 'node_modules', 'one')));
     test.ok(!fs.existsSync(path.join(session.directory, `asset.${image.sourceHash}`, 'node_modules', 'some_dep')));
