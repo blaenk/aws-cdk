@@ -108,8 +108,11 @@ export class DockerImageAsset extends CoreConstruct implements assets.IAsset {
     // make sure the docker file and the dockerignore file end up in the staging area
     // see https://github.com/aws/aws-cdk/issues/6004
     exclude = exclude.filter(ignoreExpression => {
-      return !(minimatch(file, ignoreExpression, { matchBase: true }) ||
-             minimatch(ignore, ignoreExpression, { matchBase: true }));
+      const ignoresDockerfile = minimatch(file, ignoreExpression, { matchBase: true });
+      const ignoresDockerIgnore = minimatch(ignore, ignoreExpression, { matchBase: true });
+      const isNegatedPattern = ignoreExpression.startsWith('!');
+
+      return isNegatedPattern || !(ignoresDockerfile || ignoresDockerIgnore);
     });
 
     if (props.repositoryName) {
